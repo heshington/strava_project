@@ -59,6 +59,7 @@ renamed as (
 
         "Competition" as competition,
         "Long Run" as long_run
+        
 
     from source
 
@@ -73,8 +74,22 @@ final as (
         date_trunc('month', activity_datetime)::date as activity_month,
         extract(year from activity_datetime)::integer as activity_year,
         extract(month from activity_datetime)::integer as activity_month_number,
-        extract(dow from activity_datetime)::integer as activity_day_of_week_number
-
+        extract(dow from activity_datetime)::integer as activity_day_of_week_number,
+        to_char(activity_datetime, 'Day') as day_name,
+        to_char(activity_datetime, 'Mon') as month_name,
+        extract(quarter from activity_datetime)::int as quarter,
+        extract(isodow from activity_datetime) in (6,7) as is_weekend,
+        case
+            when distance_km > 0 then round(moving_time_seconds / 60.0 / distance_km, 2)
+        end as pace_min_per_km,
+        moving_time_seconds / 3600.0 as moving_time_hours,
+        elapsed_time_seconds / 3600.0 as elapsed_time_hours,
+        case
+            when distance_km > 0 then round(elevation_gain_m / distance_km, 2)
+        end as elevation_gain_per_km,
+        activity_type = 'Run' as is_run,
+        activity_type = 'Walk' as is_walk,
+        activity_type in ('Weight Training', 'Workout') as is_strength
     from renamed
 
 )
