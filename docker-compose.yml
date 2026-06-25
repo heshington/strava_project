@@ -1,0 +1,51 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: strava_postgres
+    environment:
+      POSTGRES_USER: strava_user
+      POSTGRES_PASSWORD: strava_password
+      POSTGRES_DB: strava_raw
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./data:/var/lib/postgresql/csv_data
+    networks:
+      - strava_network
+
+  superset:
+    image: apache/superset:latest
+    container_name: strava_superset
+    environment:
+      SUPERSET_SECRET_KEY: strava_dashboard_secret_key_12345
+    ports:
+      - "8088:8088"
+    volumes:
+      - superset_data:/app/superset_home
+    depends_on:
+      - postgres
+    networks:
+      - strava_network
+
+  dbt:
+    image: ghcr.io/dbt-labs/dbt-postgres:1.7.0
+    container_name: strava_dbt
+    volumes:
+      - ./dbt:/usr/app/dbt
+      - ./dbt/profiles.yml:/root/.dbt/profiles.yml
+    working_dir: /usr/app/dbt
+    profiles:
+      - utility
+    depends_on:
+      - postgres
+    networks:
+      - strava_network
+
+volumes:
+  postgres_data:
+  superset_data:
+
+networks:
+  strava_network:
+    driver: bridge
