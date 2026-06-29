@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: stg_strava__activities
+    description: Cleaned and lightly enriched Strava activity data from the raw Strava export.
+
+    columns:
+      - name: activity_id
+        description: Unique Strava activity identifier.
+        tests:
+          - unique
+          - not_null
+
+      - name: activity_datetime
+        description: Timestamp when the activity started.
+        tests:
+          - not_null
+
+      - name: activity_date
+        description: Date of the activity.
+        tests:
+          - not_null
+
+      - name: activity_type
+        description: Strava activity type, such as Run, Walk, Weight Training, or Workout.
+        tests:
+          - not_null
+
+      - name: distance_km
+        description: Activity distance in kilometres.
+
+      - name: distance_m
+        description: Activity distance in metres.
+
+      - name: moving_time_seconds
+        description: Moving time in seconds.
+
+      - name: elapsed_time_seconds
+        description: Elapsed time in seconds.
+
+      - name: pace_min_per_km
+        description: Average moving pace in minutes per kilometre.
+
+      - name: elevation_gain_m
+        description: Total elevation gain in metres.
+
+      - name: activity_gear
+        description: Gear or shoes associated with the activity.
