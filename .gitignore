@@ -15,4 +15,4 @@ logs/
 
 
 logs/*
-!logs/.gitkeep
+!logs/.gitkeepsuperset/
