@@ -15,4 +15,7 @@ logs/
 
 
 logs/*
-!logs/.gitkeepsuperset/
+!logs/
+dbt/logs/*
+# Superset
+superset/
