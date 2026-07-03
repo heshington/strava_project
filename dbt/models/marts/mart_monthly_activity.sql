@@ -25,7 +25,8 @@ monthly_activity as (
         sum(distance_km) as total_distance_km,
         sum(elevation_gain_m) as total_elevation_gain_m,
         sum(moving_time_hours) as total_moving_time_hours,
-        sum(calories) as total_calories
+        sum(calories) as total_calories,
+        sum(coalesce(relative_effort, 0)) as total_relative_effort
 
     from {{ ref('fct_activities') }}
     where distance_km > 0
@@ -46,7 +47,7 @@ final as (
         coalesce(round(ma.total_elevation_gain_m, 2), 0) as total_elevation_gain_m,
         coalesce(round(ma.total_moving_time_hours, 2), 0) as total_moving_time_hours,
         coalesce(round(ma.total_calories, 0), 0) as total_calories,
-
+        coalesce(ma.total_relative_effort, 0) as total_relative_effort,
         case
             when coalesce(ma.total_distance_km, 0) > 0
                 then round((ma.total_moving_time_hours * 60) / ma.total_distance_km, 2)

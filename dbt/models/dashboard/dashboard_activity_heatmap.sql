@@ -23,7 +23,7 @@ daily_activity as (
 
     select
         activity_date,
-
+        activity_type,
         count(*) as activity_count,
         sum(distance_km) as total_distance_km,
         sum(moving_time_hours) as total_moving_time_hours,
@@ -32,7 +32,7 @@ daily_activity as (
         sum(coalesce(relative_effort, 0)) as total_relative_effort
 
     from activities
-    group by 1
+    group by 1, 2
 
 ),
 
@@ -45,7 +45,7 @@ final as (
         d.activity_week_number,
         d.activity_day_of_week_number,
         d.activity_day_name,
-
+        coalesce(da.activity_type, 'No Activity') as activity_type,
         coalesce(da.activity_count, 0) as activity_count,
         coalesce(round(da.total_distance_km, 2), 0) as total_distance_km,
         coalesce(round(da.total_moving_time_hours, 2), 0) as total_moving_time_hours,
