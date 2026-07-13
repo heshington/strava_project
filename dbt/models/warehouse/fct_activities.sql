@@ -1,3 +1,12 @@
+{{
+config(
+    materialized='incremental',
+    unique_key='activity_id',
+    incremental_strategy='merge',
+
+)
+}}
+
 with activities as (
 
     select *
@@ -55,3 +64,9 @@ final as (
 
 select *
 from final
+{% if is_incremental() %}
+where activity_date > (
+    select max(activity_date) - interval '3 days'
+    from {{ this }}
+)
+{% endif %}
