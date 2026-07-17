@@ -55,7 +55,65 @@ models:
         tests:
           - not_null
 
-      - name: activity_type
-        description: Type of activity recorded in Strava.
+  - name: mart_run_progression
+    description: Weekly run progression metrics with rolling pace and heart-rate trends.
+
+    columns:
+      - name: week_start_date_key
+        description: Integer week key in YYYYMMDD format.
+        tests:
+          - unique
+          - not_null
+
+      - name: week_start_date
+        description: Calendar date for the start of the week.
         tests:
           - not_null
+
+      - name: week_end_date
+        description: Calendar date for the end of the week.
+        tests:
+          - not_null
+
+      - name: run_count
+        description: Number of runs recorded in the week.
+        tests:
+          - not_null
+
+      - name: elevation_gain_per_km
+        description: Average elevation gain in meters per kilometer for the week.
+
+      - name: terrain_adjusted_pace
+        description: Pace adjusted to account for weekly terrain difficulty.
+
+      - name: terrain_adjusted_hr_pace_ratio
+        description: Heart-rate-to-pace ratio adjusted for weekly elevation gain.
+
+  - name: mart_weekly_training
+    description: Weekly training summary covering all calendar weeks with rolling distance trends.
+
+    columns:
+      - name: week_start_date_key
+        description: Integer week key in YYYYMMDD format.
+        tests:
+          - unique
+          - not_null
+
+      - name: week_start_date
+        description: Calendar date for the start of the week.
+        tests:
+          - not_null
+
+      - name: week_end_date
+        description: Calendar date for the end of the week.
+        tests:
+          - not_null
+
+      - name: run_count
+        description: Number of runs recorded in the week.
+
+      - name: rolling_3wk_distance_km
+        description: Three-week rolling average distance in kilometers.
+
+      - name: rolling_7wk_distance_km
+        description: Seven-week rolling average distance in kilometers.

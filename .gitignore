@@ -19,3 +19,6 @@ logs/*
 dbt/logs/*
 # Superset
 superset/
+
+dbt/.env
+dbt/strava_api_activities.json

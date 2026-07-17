@@ -1,0 +1,14 @@
+{
+  "servers": {
+    "dbt": {
+      "command": "/Users/hiren/.local/bin/uvx",
+      "args": [
+        "dbt-mcp"
+      ],
+      "env": {
+        "DBT_PROJECT_DIR": "/Users/hiren/data_projects/strava_project/dbt",
+        "DBT_PATH": "/Users/hiren/data_projects/strava_project/.venv/bin/dbt"
+      }
+    }
+  }
+}
